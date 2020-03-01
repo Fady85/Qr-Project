@@ -1,6 +1,6 @@
 <html>
 <head>
-<title><?php echo $fullname;?>s Profile</title>
+<title><?php echo $username;?>s Profile</title>
 <style type="text/css">
 .auto-style1 {
 	font-size: medium;
@@ -15,23 +15,26 @@ require_once "config.php";
 if (isset($_GET['username'])){
 $username = $_GET['username'];
 
+//at first this code was like this
+//$sql = 'SELECT * FROM informationtable WHERE username="'.$username.'"';
+//which is wrong bc. informationtable is the DATABASEs NAME not the name of the table
+//informationtable contains users which contains username and other data
 
-$sql = "SELECT * FROM infromationtable WHERE username=".$username;
-echo $sql;
+$sql = 'SELECT * FROM users WHERE username="'.$username.'"';
 if ($result = $link -> query($sql)) {
   while ($obj = $result -> fetch_object()) {
-	echo $obj->fullname;
+	echo $obj->username; //also fullname was used instead of username which isn't defined anywhere
   }
   $result -> free_result();
 }else{
 die("Couldn't exec statement");
 }
-$mysqli -> close();
+$link -> close();
 
 ?>
-<h2><?php echo $fullname; ?>s profile </h2><br />
+<h2><?php echo $username; ?>s profile </h2><br />
 <table>
-<tr><td class="auto-style1"><strong>Full Name:</strong></td><td style="width: 448px"><?php echo $fullname; ?>
+<tr><td class="auto-style1"><strong>Full Name:</strong></td><td style="width: 448px"><?php echo $username; ?>
 	<br>
 	<br></td></tr>
 <tr><td class="auto-style1"><strong>Birthdate:</strong></td><td style="width: 448px"><?php echo $birthdate; ?>
@@ -65,14 +68,3 @@ $mysqli -> close();
 ?>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
